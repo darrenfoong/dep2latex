@@ -15,20 +15,21 @@ input_file.seek(start_pos)
 
 if first_line[0] == "#":
     FORMAT = "cc"
+    PARSER = "cc"
     sents = input_file.read().split("\n\n")[1:]
     sents = map(lambda lines: lines.splitlines()[:-1], sents)
     sents = sents[:-1]
 elif first_line[0] == "(":
     FORMAT = "sp"
+    PARSER = "sp"
     sents = input_file.read().split("\n\n")[1::2]
     sents = map(lambda lines: lines.splitlines(), sents)
 else:
     FORMAT = "sp"
+    PARSER = "bp"
     sents = input_file.read().split("\n\n")
     sents = map(lambda lines: lines.splitlines(), sents)
     sents = sents[:-1]
-
-PARSER = sys.argv[1].split(".")[0].split("-")[1]
 
 nodes = None
 adj_list = None
