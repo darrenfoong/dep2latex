@@ -6,9 +6,8 @@ from collections import defaultdict
 
 FILE = sys.argv[1]
 
-try:
-    input_file = open(sys.argv[1], "r")
-    output_file = open(os.path.basename(sys.argv[1])+".tree", "w")
+with open(FILE, "r") as input_file, \
+     open(os.path.basename(FILE)+".tree", "w") as output_file:
 
     start_pos = input_file.tell()
     first_line = input_file.readline()
@@ -119,19 +118,10 @@ try:
         output += "\\caption{Sentence " + str(num) + " (" + PARSER + ").} \\label{fig:sent" + str(num) + PARSER + "}\n"
         output += "\\end{figure}\n\n"
 
-        try:
-            sub_output_file = open("data/sent" + str(num) + PARSER + ".tex", "w")
+        with open("data/sent" + str(num) + PARSER + ".tex", "w") as sub_output_file:
             sub_output_file.write(output)
-        finally:
-            if sub_output_file is not None:
-                sub_output_file.close()
 
         output_file.write(output)
 
     for num, sent in enumerate(sents, start=1):
         build_tree(sent, num)
-finally:
-    if input_file is not None:
-        input_file.close()
-    if output_file is not None:
-        output_file.close()
